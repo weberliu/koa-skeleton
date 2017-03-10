@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "root",
+    "password": "123456",
+    "database": "koa_development",
+    "host": "localhost",
+    "port": "32775",
+    "dialect": "mysql",
+    "define" : {
+      "timestamps": true,
+      "paranoid": true
+    }
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "koa_test",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "koa_production",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
