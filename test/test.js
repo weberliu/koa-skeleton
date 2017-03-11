@@ -11,14 +11,13 @@ describe('HTTP APP TEST', () => {
         .get('/')
         .set('Accept', 'application/text')
         .expect('Content-Type', /text/)
+        .expect(200)
         .end((err, res) => {
           if (err) {
             throw new Error(err)
           }
-          // console.log(res)
-          res.status.should.equal(200)
           // console.log(res.text)
-          res.text.should.equal("<!DOCTYPE html>\n<html>\n  <head>\n    <title>koa2 title</title>\n    <link rel='stylesheet' href='/static/stylesheets/style.css' />\n  </head>\n  <body>\n    <h1>koa2 title</h1>\n    <p>EJS Welcome to koa2 title</p>\n  </body>\n</html>\n")
+          res.text.should.equal("<!DOCTYPE html>\n<html>\n  <head>\n    <title>Hello Koa2</title>\n    <link rel='stylesheet' href='/static/stylesheets/style.css' />\n  </head>\n  <body>\n    <h1>Hello Koa2</h1>\n    <p>EJS Welcome to Koa2</p>\n  </body>\n</html>\n")
           done()
         })
     })

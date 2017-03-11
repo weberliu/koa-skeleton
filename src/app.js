@@ -62,7 +62,7 @@ app.on('error', async (err, ctx) => {
   console.log('error occured:', err)
 })
 
-const port = parseInt(config.port || '3000')
+const port = process.env.PORT || parseInt(config.port || '3000')
 const server = http.createServer(app.callback())
 
 server.listen(port)
