@@ -1,19 +1,18 @@
-# koa2-startkit
+# koa-skeleton
+
+本项目基于 [koa2-startkit](https://github.com/17koa/koa2-startkit.git) 修改。在原有的基础之上增加了 RESTful 支持。
 
 可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。
 
-[开发模式] 开发模式下，文件修改后~~自动重启 Node.js~~ 自动热重启服务。       
-
-[调试模式] 断点调试 (test feature)
-
-[线上模式] 借助 pm2 使用 cluster 模式压榨多核 CPU 性能 
+* [开发模式] 开发模式下，文件修改后自动热重启服务。       
+* [线上模式] 借助 pm2 使用 cluster 模式压榨多核 CPU 性能 
 
 ## Getting Start
 
 ```
-git clone https://github.com/17koa/koa2-startkit.git
-cd koa2-startkit
-npm install # 国内可以使用 cnpm 加速, 教育网可使用 rednpm (https://npm.mirror.cqupt.edu.cn) 加速
+git clone https://github.com/weberliu/koa-skeleton.git
+cd koa-skeleton
+npm install
 npm start
 ```
 
@@ -27,6 +26,9 @@ $ npm run build # build
 $ npm test # 单元测试
 $ npm run compile # 编译
 $ npm run production # 生产模式
+$ npm run migrate # 初始化数据库
+$ npm run migrate reset # 重置数据库
+$ npm run migrate model modelname attribute # 创建 Sequelize 模型
 ```
 
 
@@ -54,32 +56,6 @@ import config from './config'
 
 
 
-## 断点调试
-
-[测试功能]
-
-```bash
-$ npm run debug
-```
-
-在 VSCode 编辑器中: 
-
-![1](https://dn-redrock.qbox.me/github/koa-1.png)
-
-1. 选择DEBUG图标
-2. 点击绿色三角, 环境选择 Node.js
-3. 把program改成 ${workspaceRoot}/bin/debug.js, 把sourceMaps设为true
-4. ![2](https://dn-redrock.qbox.me/github/koa-2.png)
-5. 再次点击绿色三角启动debug
-6. 进入 app/ 目录下找到对应的文件(!!注意是app目录), 在需要的地方打上断点(这里的代码是babel编译后的, 很难看懂啊, 但是在 node 支持 async, import 之前, 只能采用这种方法)
-7. ![3](https://dn-redrock.qbox.me/github/koa-3.png)
-8. 访问对应页面, vscode应该会弹出到断点处, 这个时候应该显示的就是 ES6/7 代码了
-9. ![4](https://dn-redrock.qbox.me/github/koa-4.png)
-10. 左侧的调试窗口已经可以正常使用了
-11. ![5](https://dn-redrock.qbox.me/github/koa-5.png)
-
-
-
 
 ## 目录结构说明
 
@@ -93,6 +69,9 @@ $ npm run debug
 │   ├── debug.js
 │   ├── development.js      # 开发模式下项目的入口文件
 │   └── production.js       # 线上入口文件, 请预先使用 npm run compile 编译
+├── database
+│   ├── migrations          # 数据库结构
+│   └── seeders             # 初始化数据
 ├── nginx.conf              # nginx 的配置文件，建议线上使用 nginx 做反向代理。 
 ├── package.json            # package.json
 ├── pm2.json                # 用于 pm2 部署
@@ -114,10 +93,4 @@ $ npm run debug
     ├── error.ejs
     └── index.ejs
 ```
-
-
-## Contact
-
-[issues](https://github.com/17koa/koa2-startkit/issues)
-
-[@Ling](https://github.com/wssgcg1213)    
+ 

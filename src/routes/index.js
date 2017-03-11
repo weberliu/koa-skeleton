@@ -1,17 +1,15 @@
 import Sequelize from 'sequelize'
 import Router from 'koa-router'
+import Resource from 'koa-sequelize-resource'
 
-import {models} from '../models/'
-import RestRouter from './restrouter'
+import {User} from '../models/'
 import Home from '../controllers/home'
 
 const router = Router()
 
 router.get('/', Home)
 
-
-const user = new RestRouter(models.User)
-
+const user = new Resource(User)
 
 router.get('/user', user.readAll())
 router.get('/user/:id', user.readOne())

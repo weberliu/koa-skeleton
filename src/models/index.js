@@ -7,7 +7,10 @@ var basename  = path.basename(module.filename);
 var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../../database/config.json')[env];
 var models    = {};
+import logger from 'debug'
 
+const debug = logger('Models')
+const options = { ...config, logging: debug, }
 
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable]);
@@ -32,5 +35,5 @@ Object.keys(models).forEach(function(modelName) {
 })
 
 module.exports = {
-  sequelize, models,
+  sequelize, ...models,
 }

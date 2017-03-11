@@ -95,10 +95,10 @@ describe('RESOURCE TEST', () => {
         })
     })
 
-    it('should 404', done => {
+    it('should 204', done => {
       request(app.listen())
         .get('/user/0')
-        .expect(404, done)
+        .expect(204, done)
     })
   })
 
@@ -155,22 +155,20 @@ describe('RESOURCE TEST', () => {
         .expect(409, done)
     })
 
-    it('should 404', done => {
+    it('should 204', done => {
       request(app.listen())
         .patch('/user/0')
         .type('form')
         .send({ name: 'whoami', })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(404, done)
+        .expect(204, done)
     })
   })
 
   describe('Destroy', () => {
-    it('should 404', done => {
+    it('should 204', done => {
       request(app.listen())
         .delete('/user/0')
-        .expect(404, done)
+        .expect(204, done)
     })
 
     it('should 204', done => {
