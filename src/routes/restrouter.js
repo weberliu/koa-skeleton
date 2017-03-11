@@ -4,27 +4,6 @@ import _ from 'lodash'
 
 const debug = require('debug')('koa-sequelize-resource')
 
-function handleError(err, ctx) {
-  const e = _.cloneDeep(err)
-
-  delete e.name
-  delete e.parent
-  delete e.original
-  delete e.sql
-
-  e.code = err.original.code
-
-  switch(e.code) {
-    case 'ER_NO_DEFAULT_FOR_FIELD':
-      ctx.throw(400, e)
-      break
-    case 'ER_DUP_ENTRY':
-      ctx.throw(409, e)
-      break
-    default:
-      ctx.throw(500, e)
-  }
-}
 
 export default class Rest
 {
@@ -32,6 +11,31 @@ export default class Rest
     debug(model);
     this.model = model;
     this.options = {idColumn: 'id', ...options}
+  }
+
+  _handleError(err, ctx) {
+    const e = _.cloneDeep(err)
+
+    delete e.parent
+    delete e.original
+    delete e.sql
+
+    e.code = err.original.code
+    
+    switch(e.code) {
+      case 'ER_NO_DEFAULT_FOR_FIELD':
+        e.statusCode = 400
+        break
+      case 'ER_DUP_ENTRY':
+        e.statusCode = 409
+        break
+      default:
+        e.statusCode = 500
+        throw e
+    }
+
+    ctx.status = e.statusCode
+    ctx.body = e
   }
 
   async _getEntity(ctx, include) {
@@ -43,95 +47,110 @@ export default class Rest
   }
 
   getEntity(include) {
-    let rest = this
+    let that = this
 
     return async (ctx, next) => {
-      this.instance = await rest._getEntity(ctx, include)
-      debug(`Loaded ${rest.model.name} ${this.instance}`)
+      ctx.state.instance = await that._getEntity(ctx, include)
+      debug(`Loaded ${that.model.name} ${ctx.state.instance}`)
 
       await next();
     };
   }
 
   create() {
-    let rest = this;
+    let that = this;
 
     return async (ctx, next) => {
-      this.instance = await rest.model.create(ctx.request.body)
-                        .catch(err => handleError(err, ctx))
-
-      debug(`Created ${rest.model.name} ${this.instance}`);
-
-      await next()
-
-      ctx.status = 201;
-      ctx.body = this.instance;
-    };
+      await that.model.create(ctx.request.body)
+        .then(async (instance) => {
+          debug(`Created ${that.model.name} ${instance}`)
+          
+          ctx.state.instance = instance
+          await next()
+          ctx.status = 201;
+          ctx.body = ctx.state.instance;
+        })
+        .catch(err => that._handleError(err, ctx)) 
+    }
   }
 
   readOne() {
-    let rest = this;
+    let that = this;
 
     return async (ctx, next) => {
-      this.instance = await rest._getEntity(ctx, [{ all: true }]);
+      ctx.state.instance = await that._getEntity(ctx, [{ all: true }]);
 
-      if (this.instance === null) ctx.throw(404)
+      if (ctx.state.instance === null) {
+        ctx.status = 404
+        ctx.body = { message: 'Not found' }
+
+        return
+      }
 
       await next()
 
       ctx.status = 200;
-      ctx.body = this.instance;
+      ctx.body = ctx.state.instance;
     };
   }
 
   readAll(options) {
-    let rest = this;
+    let that = this;
 
     return async (ctx, next) => {
-      this.instances = await rest.model.findAll(_.merge(ctx.state.where, options));
+      ctx.state.instances = await that.model.findAll(_.merge(ctx.state.where, options))
 
       await next()
-
       ctx.status = 200;
-      ctx.body = this.instances
-    };
+      ctx.body = ctx.state.instances
+    }
   }
 
   update(options) {
-    let rest = this;
+    let that = this;
 
     return async (ctx, next) => {
-      this.instance = await rest._getEntity(ctx, [])
+      const instance = await that._getEntity(ctx, [])
 
-      if (this.instance === null) ctx.throw(404)
+      if (instance === null) {
+        ctx.status = 404
+        ctx.body = { message: 'Not found' }
+        return
+      }
 
-      this.instance = await this.instance.update(ctx.request.body, options)
-                        .catch(err => handleError(err, ctx))
-      
-      debug(`Updated ${rest.model.name} ${this.instance}`);
+      await instance.update(ctx.request.body, options)
+        .then(async res => {
+          debug(`Updated ${that.model.name} ${instance}`);
 
-      await next()
-
-      ctx.status = 200;
-      ctx.body = this.instance;
+          ctx.state.instance = res
+          await next()
+          ctx.status = 200
+          ctx.body = ctx.state.instance
+        })
+        .catch(err => that._handleError(err, ctx))
     };
   }
 
   destroy() {
-    let rest = this;
+    let that = this;
 
     return async (ctx, next) => {
-      this.instance = await rest._getEntity(ctx, [])
+      const instance = await that._getEntity(ctx, [])
 
-      if (this.instance === null) ctx.throw(404)
+      if (instance === null) {
+        ctx.status = 404
+        ctx.body = { message: 'Not found' }
 
-      await this.instance.destroy()
+        return
+      }
 
-      debug(`Deleted ${rest.model.name} ${this.instance}`);
+      await instance.destroy()
 
+      debug(`Deleted ${that.model.name} ${instance}`)
+
+      ctx.state.instance = instance
       await next()
-
-      ctx.status = 204;
+      ctx.status = 204
     };
   }
 }
