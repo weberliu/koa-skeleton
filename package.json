@@ -9,7 +9,7 @@
     "build": "npm test && npm run clean && npm run compile",
     "compile": "babel src/ --out-dir app/ --retain-lines --source-maps",
     "clean": "rm -rf app/",
-    "test": "mocha -u bdd --compilers js:babel-core/register",
+    "test": "export NODE_ENV=test; export DEBUG=; mocha -u bdd --compilers js:babel-core/register",
     "dev": "npm start",
     "migrate": "node bin/migrate.js"
   },

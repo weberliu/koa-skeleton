@@ -6,6 +6,7 @@
     "host": "localhost",
     "port": "32775",
     "dialect": "mysql",
+    "logging": true,
     "define" : {
       "timestamps": true,
       "paranoid": true
@@ -13,10 +14,16 @@
   },
   "test": {
     "username": "root",
-    "password": null,
+    "password": "123456",
     "database": "koa_test",
     "host": "localhost",
-    "dialect": "mysql"
+    "port": "32775",
+    "dialect": "mysql",
+    "logging": false,
+    "define" : {
+      "timestamps": false,
+      "paranoid": true
+    }
   },
   "production": {
     "username": "root",

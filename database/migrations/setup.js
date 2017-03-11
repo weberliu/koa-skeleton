@@ -49,7 +49,7 @@ module.exports = {
           allowNull: true,
         },
       }),
-      queryInterface.addIndex('Users', ['phone_number']),
+      queryInterface.addIndex('Users', ['phoneNumber']),
       queryInterface.bulkInsert('Users',[
         {
           id: 1,

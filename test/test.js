@@ -1,6 +1,8 @@
 import request from 'supertest'
 import fs from 'fs'
 import path from 'path'
+import shelljs from 'shelljs'
+
 import 'should'
 import app from '../src'
 
@@ -55,6 +57,26 @@ describe('HTTP APP TEST', () => {
           }
           // console.log(res)
           res.status.should.equal(404)
+          done()
+        })
+    })
+  })
+})
+
+
+describe('RESOURCE TEST', _ => {
+  shelljs.exec('npm run migrate reset')
+
+  describe('Get', _ => {
+    it('should 200', done => {
+      request(app.listen())
+        .get('/user')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw new Error(err)
+          res.body.length.should.be.aboveOrEqual(1)
           done()
         })
     })

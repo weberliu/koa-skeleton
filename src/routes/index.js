@@ -13,7 +13,6 @@ router.get('/', Home)
 const user = new RestRouter(models.User)
 
 
-
 router.get('/user', user.readAll())
 router.get('/user/:id', user.readOne())
 router.post('/user', user.create())
