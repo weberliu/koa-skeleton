@@ -1,21 +1,22 @@
 'use strict';
 
-var fs        = require('fs');
-var path      = require('path');
-var Sequelize = require('sequelize');
-var basename  = path.basename(module.filename);
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../../database/config.json')[env];
-var models    = {};
-import logger from 'debug'
+import fs        from 'fs'
+import path      from 'path'
+import Sequelize from 'sequelize'
+import logger    from 'debug'
+import config    from '../../database/config.json'
 
-const debug = logger('Models')
-const options = { ...config, logging: debug, }
+const basename  = path.basename(module.filename);
+const env       = process.env.NODE_ENV || 'development';
+const debug     = logger('Models')
+const options   = { ...config[env], logging: debug, }
+
+let models    = {};
 
 if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable]);
+  var sequelize = new Sequelize(options.env[options.use_env_variable], options);
 } else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+  var sequelize = new Sequelize(options.database, options.username, options.password, options);
 }
 
 fs
@@ -35,5 +36,5 @@ Object.keys(models).forEach(function(modelName) {
 })
 
 module.exports = {
-  sequelize, ...models,
+  sequelize, models,
 }

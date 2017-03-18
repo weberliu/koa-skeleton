@@ -6,7 +6,6 @@
     "host": "localhost",
     "port": "32775",
     "dialect": "mysql",
-    "logging": true,
     "define" : {
       "timestamps": true,
       "paranoid": true
@@ -19,7 +18,6 @@
     "host": "localhost",
     "port": "32775",
     "dialect": "mysql",
-    "logging": false,
     "define" : {
       "timestamps": true,
       "paranoid": true

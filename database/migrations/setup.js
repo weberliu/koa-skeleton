@@ -7,7 +7,7 @@ module.exports = {
     
     return [
       // users model
-      queryInterface.createTable('Users', {
+      queryInterface.createTable('users', {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -49,8 +49,8 @@ module.exports = {
           allowNull: true,
         },
       }),
-      queryInterface.addIndex('Users', ['phoneNumber']),
-      queryInterface.bulkInsert('Users',[
+      queryInterface.addIndex('users', ['phoneNumber']),
+      queryInterface.bulkInsert('users',[
         {
           id: 1,
           name: 'demo',

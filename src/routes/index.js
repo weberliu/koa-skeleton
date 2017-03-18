@@ -1,20 +1,15 @@
 import Sequelize from 'sequelize'
-import Router from 'koa-router'
-import Resource from 'koa-sequelize-resource'
+import Router from 'koa-sequelize-resource'
 
-import {User} from '../models/'
+import {sequelize, models} from '../models/'
 import Home from '../controllers/home'
 
-const router = Router()
+const router = Router(sequelize.models)
+// console.log(sequelize.models)
 
-router.get('/', Home)
+router
+  .get('/', Home)
+  .crud('/user', resources => resources.user)
 
-const user = new Resource(User)
-
-router.get('/user', user.readAll())
-router.get('/user/:id', user.readOne())
-router.post('/user', user.create())
-router.patch('/user/:id', user.update())
-router.delete('/user/:id', user.destroy())
 
 export default router
