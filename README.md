@@ -27,8 +27,8 @@ $ npm test # 单元测试
 $ npm run compile # 编译
 $ npm run production # 生产模式
 $ npm run migrate # 初始化数据库
-$ npm run migrate reset # 重置数据库
-$ npm run migrate model modelname attribute # 创建 Sequelize 模型
+$ npm run migrate reset [all] # 重置上一次或者全部
+$ npm run migrate undo [all] # 撤销上一次或者全部
 ```
 
 

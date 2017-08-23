@@ -11,5 +11,4 @@ router
   .get('/', Home)
   .crud('/user', resources => resources.user)
 
-
 export default router

@@ -1,24 +1,21 @@
-'use strict';
+'use strict'
 
 import bcrypt from 'bcrypt'
-import debug from 'debug'
 
-const log = debug('rest-router')
-
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'user', 
+    'user',
     {
       name: DataTypes.STRING,
       password: DataTypes.STRING,
       salt: DataTypes.STRING,
       email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       phoneNumber: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       }
-    }, 
+    },
 
     {
       hooks: {
@@ -33,7 +30,7 @@ module.exports = function(sequelize, DataTypes) {
       },
 
       classMethods: {
-        associate: function(models) {
+        associate: function (models) {
           // associations can be defined here
         }
       }

@@ -4,7 +4,7 @@ module.exports = {
     var bcrypt = require('bcrypt')
     var salt = bcrypt.genSaltSync(10)
     var hash = bcrypt.hashSync('123456', salt)
-    
+
     return [
       // users model
       queryInterface.createTable('users', {
@@ -16,19 +16,19 @@ module.exports = {
         name: {
           type: Sequelize.STRING(50),
           allowNull: false,
-          unique: true,
+          unique: true
         },
         password: {
           type: Sequelize.STRING(100),
-          allowNull: false,
+          allowNull: false
         },
         salt: {
           type: Sequelize.STRING(50),
-          allowNull: false,
+          allowNull: false
         },
         email: {
           type: Sequelize.STRING(100),
-          allowNull: false,
+          allowNull: false
         },
         phoneNumber: {
           type: Sequelize.STRING(11),
@@ -37,20 +37,20 @@ module.exports = {
         createdAt: {
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.NOW,
+          defaultValue: Sequelize.NOW
         },
         updatedAt: {
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.NOW,
+          defaultValue: Sequelize.NOW
         },
         deletedAt: {
           type: Sequelize.DATE,
-          allowNull: true,
-        },
+          allowNull: true
+        }
       }),
       queryInterface.addIndex('users', ['phoneNumber']),
-      queryInterface.bulkInsert('users',[
+      queryInterface.bulkInsert('users', [
         {
           id: 1,
           name: 'demo',
@@ -59,14 +59,14 @@ module.exports = {
           email: 'demo@who.com',
           phoneNumber: '13200000000',
           createdAt: new Date(),
-          updatedAt: new Date(),
+          updatedAt: new Date()
         }
       ])
     ]
   },
 
-  down: function(queryInterface, Sequelize) {
+  down: function (queryInterface, Sequelize) {
     // logic for reverting the changes
     return queryInterface.dropAllTables()
   }
-} 
+}

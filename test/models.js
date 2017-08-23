@@ -5,7 +5,6 @@ import shelljs from 'shelljs'
 import 'should'
 import app from '../src'
 
-
 describe('RESOURCE TEST', () => {
   before(function () {
     this.timeout(10000)
@@ -55,7 +54,7 @@ describe('RESOURCE TEST', () => {
           name: 'whoami',
           email: 'whoami@who.com',
           password: '1233',
-          phoneNumber: '13300000000',
+          phoneNumber: '13300000000'
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -70,7 +69,7 @@ describe('RESOURCE TEST', () => {
           name: 'demo',
           email: 'whoami@who.com',
           password: '1233',
-          phoneNumber: '13300000000',
+          phoneNumber: '13300000000'
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -83,7 +82,7 @@ describe('RESOURCE TEST', () => {
       request(app.listen())
         .patch('/user/1')
         .type('form')
-        .send({ name: 'tester', })
+        .send({ name: 'tester' })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done)
@@ -93,7 +92,7 @@ describe('RESOURCE TEST', () => {
       request(app.listen())
         .patch('/user/1')
         .type('form')
-        .send({ name: 'whoami', })
+        .send({ name: 'whoami' })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(409, done)
@@ -103,7 +102,7 @@ describe('RESOURCE TEST', () => {
       request(app.listen())
         .patch('/user/0')
         .type('form')
-        .send({ name: 'whoami', })
+        .send({ name: 'whoami' })
         .expect(204, done)
     })
   })

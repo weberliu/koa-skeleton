@@ -1,30 +1,32 @@
 #!/usr/bin/env node
 
-var _ = require('lodash')
-var program = require('commander')
 var shelljs = require('shelljs')
 
 require('colors')
 var log = console.log.bind(console, '>>> [MIGRATION]:'.red)
 
-function build(cmd, params = '') {
+function build (cmd, params = '') {
   return `node_modules/.bin/sequelize ${cmd} ${params} --config=database/config.json --migrations-path=database/migrations --seeders-path=database/seeders --models-path=src/models `
 }
 
 const action = process.argv[2]
+const params = process.argv.slice(3)
 
 switch (action) {
-  case 'model':
-    var params = process.argv.slice(3)
-    var cmd = build('model:create', `--name ${params[0]} --attributes ${params[1]}`)
-    shelljs.exec(cmd)
-    break
   case 'reset':
-    shelljs.exec(build('db:migrate:undo'))
+    shelljs.exec(build(params[0] === 'all' ? 'db:migrate:undo:all' : 'db:migrate:undo'))
     shelljs.exec(build('db:migrate'))
+    break
+  case 'undo':
+    shelljs.exec(build(params[0] === 'all' ? 'db:migrate:undo:all' : 'db:migrate:undo'))
+    break
+  case 'init':
+    shelljs.exec(build('init'))
     break
   default:
     shelljs.exec(build('db:migrate'))
 }
 
+log(`${action} is done.`)
 
+process.exit(0)
