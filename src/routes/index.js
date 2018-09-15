@@ -1,7 +1,6 @@
-import Sequelize from 'sequelize'
 import Router from 'koa-sequelize-resource'
 
-import {sequelize, models} from '../models/'
+import {sequelize} from '../models/'
 import Home from '../controllers/home'
 
 const router = Router(sequelize.models)
