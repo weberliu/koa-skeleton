@@ -23,6 +23,10 @@ switch (action) {
   case 'init':
     shelljs.exec(build('init'))
     break
+  case 'model':
+    const attributes = process.argv.slice(4)
+    shelljs.exec(build('model:generate', '--name ' + params, '--attributes ' + attributes))
+    break
   default:
     shelljs.exec(build('db:migrate'))
 }
