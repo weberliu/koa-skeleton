@@ -24,13 +24,14 @@ switch (action) {
     shelljs.exec(build('init'))
     break
   case 'model':
-    const attributes = process.argv.slice(4)
-    shelljs.exec(build('model:generate', '--name ' + params, '--attributes ' + attributes))
+    let cmd = build('model:generate', '--name ' + params[0] + ' --attributes ' + params[1])
+    console.log(cmd)
+    shelljs.exec(cmd)
     break
   default:
     shelljs.exec(build('db:migrate'))
 }
 
-log(`${action} is done.`)
+log(`${action || 'migrate'} is done.`)
 
 process.exit(0)
