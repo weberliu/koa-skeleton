@@ -7,6 +7,10 @@
     "port": "32775",
     "dialect": "mysql",
     "define" : {
+      "charset": "utf8",
+      "dialectOptions": {
+        "collate": "utf8_general_ci"
+      },
       "timestamps": true,
       "paranoid": true
     }
@@ -19,6 +23,10 @@
     "port": "32775",
     "dialect": "mysql",
     "define" : {
+      "charset": "utf8",
+      "dialectOptions": {
+        "collate": "utf8_general_ci"
+      },
       "timestamps": true,
       "paranoid": true
     }
@@ -28,6 +36,14 @@
     "password": null,
     "database": "koa_production",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "define" : {
+      "charset": "utf8",
+      "dialectOptions": {
+        "collate": "utf8_general_ci"
+      },
+      "timestamps": true,
+      "paranoid": true
+    }
   }
 }
