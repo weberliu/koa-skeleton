@@ -8,6 +8,6 @@ const router = Router(sequelize.models)
 
 router
   .get('/', Home)
-  .crud('/user', resources => resources.user)
+  .crud('/users', resources => resources.user)
 
 export default router

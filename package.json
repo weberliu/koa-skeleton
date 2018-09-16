@@ -9,7 +9,7 @@
     "build": "npm test && npm run clean && npm run compile",
     "compile": "babel src/ --out-dir app/ --retain-lines --source-maps",
     "clean": "rm -rf app/",
-    "test": "export NODE_ENV=test; export DEBUG=; mocha -u bdd --compilers js:babel-core/register",
+    "test": "export NODE_ENV=test; export DEBUG=; mocha -u bdd --compilers js:babel-core/register -- test/models.js",
     "dev": "npm start",
     "migrate": "node bin/migrate.js"
   },
@@ -38,7 +38,7 @@
     "koa-logger": "^3.2.0",
     "koa-onerror": "^4.1.0",
     "koa-router": "^7.4.0",
-    "koa-sequelize-resource": "^0.1.3",
+    "koa-sequelize-resource": "/Users/weberliu/git-root/privates/koa-sequelize-resource",
     "koa-static-plus": "^0.1.1",
     "koa-views": "^6.1.4",
     "lodash": "^4.11.1",

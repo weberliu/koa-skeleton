@@ -14,22 +14,22 @@ describe('RESOURCE TEST', () => {
   describe('Get collection', () => {
     it('should 200', done => {
       request(app.listen())
-        .get('/user')
+        .get('/users')
         .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
+        .expect('content-type', /json/)
         .expect(200)
         .end((err, res) => {
           if (err) throw new Error(err)
-          res.body.length.should.be.aboveOrEqual(1)
+          res.body.items.length.should.be.aboveOrEqual(1)
           done()
         })
     })
 
     it('should 200 and is object', done => {
       request(app.listen())
-        .get('/user/1')
+        .get('/users/1')
         .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
+        .expect('content-type', /json/)
         .expect(200)
         .end((err, res) => {
           if (err) throw new Error(err)
@@ -40,7 +40,7 @@ describe('RESOURCE TEST', () => {
 
     it('should 204', done => {
       request(app.listen())
-        .get('/user/0')
+        .get('/users/10')
         .expect(204, done)
     })
   })
@@ -48,7 +48,7 @@ describe('RESOURCE TEST', () => {
   describe('Create', () => {
     it('should 201', done => {
       request(app.listen())
-        .post('/user')
+        .post('/users')
         .type('form')
         .send({
           name: 'whoami',
@@ -63,7 +63,7 @@ describe('RESOURCE TEST', () => {
 
     it('should 409', done => {
       request(app.listen())
-        .post('/user')
+        .post('/users')
         .type('form')
         .send({
           name: 'demo',
@@ -80,7 +80,7 @@ describe('RESOURCE TEST', () => {
   describe('Update', () => {
     it('should 201', done => {
       request(app.listen())
-        .patch('/user/1')
+        .patch('/users/1')
         .type('form')
         .send({ name: 'tester' })
         .set('Accept', 'application/json')
@@ -90,7 +90,7 @@ describe('RESOURCE TEST', () => {
 
     it('should 409', done => {
       request(app.listen())
-        .patch('/user/1')
+        .patch('/users/1')
         .type('form')
         .send({ name: 'whoami' })
         .set('Accept', 'application/json')
@@ -100,7 +100,7 @@ describe('RESOURCE TEST', () => {
 
     it('should 204', done => {
       request(app.listen())
-        .patch('/user/0')
+        .patch('/users/0')
         .type('form')
         .send({ name: 'whoami' })
         .expect(204, done)
@@ -110,13 +110,13 @@ describe('RESOURCE TEST', () => {
   describe('Destroy', () => {
     it('should 204', done => {
       request(app.listen())
-        .delete('/user/0')
+        .delete('/users/0')
         .expect(204, done)
     })
 
     it('should 204', done => {
       request(app.listen())
-        .delete('/user/1')
+        .delete('/users/1')
         .expect(204, done)
     })
   })
