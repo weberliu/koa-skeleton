@@ -9,7 +9,7 @@ const debug = require('debug')('dev')
 const babelCliDir = require('babel-cli/lib/babel/dir')
 const babelCliFile = require('babel-cli/lib/babel/file')
 const chokidar = require('chokidar')
-const watcher = chokidar.watch(path.join(__dirname, '../src'))
+const watcher = chokidar.watch(path.join(__dirname, '../src'), { ignored: /^\./, persistent: true, ignoreInitial: true })
 const cp = require('child_process')
 
 require('colors')
@@ -32,7 +32,7 @@ watcher.on('ready', function () {
       compileFile('src/', 'app/', path.relative(srcPath, absPath), cacheClean)
       appIns = reload(appIns)
     })
-    
+
     .on('unlink', function (absPath) {
       var rmfileRelative = path.relative(srcPath, absPath)
       var rmfile = path.join(appPath, rmfileRelative)
