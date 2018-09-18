@@ -2588,8 +2588,9 @@ koa-send@~3.1.0:
     mz "^2.3.1"
     resolve-path "^1.3.1"
 
-koa-sequelize-resource@/Users/weberliu/git-root/privates/koa-sequelize-resource:
+"koa-sequelize-resource@https://github.com/weberliu/koa-sequelize-resource":
   version "0.2.0"
+  resolved "https://github.com/weberliu/koa-sequelize-resource#fb064bf71e19ba0458524280212d57666df438e6"
   dependencies:
     debug "^2.2.0"
     inflection "^1.12.0"

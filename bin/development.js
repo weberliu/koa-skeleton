@@ -78,15 +78,16 @@ function cacheClean () {
   log('♬ App Cache Cleaned...'.green)
 }
 
-function reload(appIns) {
+function reload (appIns) {
   log('♬ App Reloading...'.green)
-  const res = appIns.kill('SIGINT')
 
-  return cp.fork(require('path').join(appPath));
+  appIns.kill('SIGINT')
+
+  return cp.fork(require('path').join(appPath))
 }
 
 process.on('SIGINT', () => {
-  process.exit(0);
+  process.exit(0)
 })
 
 process.on('exit', function (e) {

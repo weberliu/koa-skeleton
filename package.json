@@ -38,7 +38,7 @@
     "koa-logger": "^3.2.0",
     "koa-onerror": "^4.1.0",
     "koa-router": "^7.4.0",
-    "koa-sequelize-resource": "/Users/weberliu/git-root/privates/koa-sequelize-resource",
+    "koa-sequelize-resource": "https://github.com/weberliu/koa-sequelize-resource",
     "koa-static-plus": "^0.1.1",
     "koa-views": "^6.1.4",
     "lodash": "^4.11.1",
