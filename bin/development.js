@@ -47,6 +47,32 @@ watcher.on('ready', function () {
       cacheClean()
       appIns = reload(appIns)
     })
+
+    .on('addDir', function (absPath) {
+      var relativePath = path.relative(srcPath, absPath)
+      var newdir = path.join(appPath, relativePath)
+      try {
+        fs.mkdirSync(newdir)
+      } catch (e) {
+        debug('fail to create directory', newdir)
+        return
+      }
+
+      console.log('Added directory', relativePath)
+    })
+
+    .on('unlinkDir', function (absPath) {
+      var relativePath = path.relative(srcPath, absPath)
+      var rmdir = path.join(appPath, relativePath)
+      try {
+        fs.rmdirSync(rmdir)
+      } catch (e) {
+        debug('fail to remove directory', rmdir)
+        return
+      }
+
+      console.log('Removed directory', relativePath)
+    })
 })
 
 function compileFile (srcDir, outDir, filename, cb) {
